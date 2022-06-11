@@ -1,0 +1,23 @@
+Two players X and Y are playing a game in which there are pots of gold arranged in a line, each containing some gold coins.
+They get alternating turns in which the player can pick a pot from one of the ends of the line.
+The winner is the player who has a higher number of coins at the end.
+The objective is to maximize the number of coins collected by X, assuming Y also plays optimally.
+Return the maximum coins X could get while playing the game. Initially, X starts the game.
+
+class Solution {
+public:
+    int maxCoins(vector<int>&A,int n)
+    {
+	    vector<int> opt(A);
+	    vector<int> sum(A);
+	    for (int i = 1; i <= n; i++) {
+	        for (int j = 0; j < n - i; j++) {
+	            opt[j] = std::max(
+	                A[j] + sum[j + 1] - opt[j],
+	                A[j + i] + sum[j] - opt[j + 1]);
+	            sum[j] += A[j + i];
+	        }
+	    }
+	    return opt[0];
+    }
+};
