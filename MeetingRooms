@@ -1,0 +1,42 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+class Interval {
+public:
+    int start, end;
+    Interval(int start, int end) {
+        this->start = start;
+        this->end = end;
+    }
+};
+
+class myCompare {
+public:
+    bool operator() (Interval i1, Interval i2) {
+        return (i1.start < i2.start);
+    }
+};
+
+
+bool canAttendMeetings(std::vector<Interval> &intervals) {
+    std::sort(intervals.begin(), intervals.end(), myCompare());
+    for (int i = 0; i < intervals.size() - 1; i++) {
+        if (intervals[i + 1].start < intervals[i].end) {
+            return false;
+        }
+    }
+    return true;
+}
+
+int main()
+{
+    std::vector<Interval> intervals;
+    intervals.push_back(Interval(5, 6));
+    intervals.push_back(Interval(5, 7));
+    intervals.push_back(Interval(7, 8));
+    for (auto i : intervals) {
+        std::cout << i.start;
+    }
+    std::cout << canAttendMeetings(intervals);
+}
